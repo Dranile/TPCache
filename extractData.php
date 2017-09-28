@@ -28,15 +28,18 @@ class extractData {
         $files = scandir(extractData::$directory);
         foreach ($files as $file){
             if(strcmp($file,$query) == 0){
-                echo "<h3>mot deja en cache</h3>";
+                echo "<h3>Mot déja en cache</h3>";
                 $filename = extractData::$directory . $query;
+                if(filesize($filename) == 0){
+                    return "";
+                }
                 $myFile = fopen($filename, "r");
                 $result = fread($myFile, filesize($filename));
                 fclose($myFile);
                 return $result;
             }
         }
-        echo "<h3>creation d'un nouveau jeu de données</h3>";
+        echo "<h3>Création d'un nouveau jeu de données</h3>";
         $result = $this->extract($query);
         $this->writeContentInFile($query, $result);
         return $result;

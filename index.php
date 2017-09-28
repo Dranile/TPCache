@@ -12,17 +12,50 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>
+            <?php 
+            if (isset($_GET["search"]))
+                echo($_GET["search"]);
+            else
+                echo("Recherche du mot") ?>
+        </title>       
+        <style>
+            body{
+                margin:50px 50px;
+            }
+            form{
+                display:flex;
+                justify-content: center;
+            }
+            form input[type="text"]{
+                width: 1000px;
+                height: 27px;
+                margin-right: 10px;
+            }
+            
+            form input[type="submit"]{
+                background-color: rgb(100,200,100);
+                color:white;
+                font-weight: bold;
+                border: none;
+            }
+        </style>
     </head>
     <body>
+        <form action="index.php" method="get">
+            <input type="text" name="search" placeholder="Entrez le mot à rechercher" id="search"/>
+            <input type="submit" value="Rechercher"/>
+        </form>
+        
         <?php
-            $query = "homme";
-            $extract = new extractData;
-            $result = $extract->getElement($query);
-            
-            echo "<pre>" . $result . "</pre>";
-            //$result = $extract->extract($query);
-            //$extract->writeContentInFile($query, $result);
+        
+            if(isset($_GET["search"]) && strcmp($_GET["search"],"")!== 0){
+                $query = $_GET["search"];
+                $extract = new extractData;
+                $result = $extract->getElement($query);
+
+                echo "<pre>" . $result . "</pre>";
+            }
         ?>
     </body>
 </html>
