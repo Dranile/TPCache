@@ -13,7 +13,7 @@
  */
 class extractData {
     private static $url = "http://www.jeuxdemots.org/rezo-dump.php?gotermsubmit=Chercher&gotermrel=";
-    private static $directory = "query/";
+    private static $directory = "query";
     
     function __construct() {
         
@@ -25,11 +25,14 @@ class extractData {
      * Sinon on le télécharge et le met en cache
      */
     function getElement($query){
+        if (!file_exists(extractData::$directory)) {
+            mkdir(extractData::$directory, 0777, true);
+        }
         $files = scandir(extractData::$directory);
         foreach ($files as $file){
             if(strcmp($file,$query) == 0){
                 echo "<h3>Mot déja en cache</h3>";
-                $filename = extractData::$directory . $query;
+                $filename = extractData::$directory . "/" . $query;
                 if(filesize($filename) == 0){
                     return "";
                 }
@@ -65,7 +68,8 @@ class extractData {
     }
     
     private function writeContentInFile($name, $content){
-        $myFile = fopen(extractData::$directory . $name, "w");
+               
+        $myFile = fopen(extractData::$directory . "/" . $name, "w");
         fwrite($myFile, $content);
         fclose($myFile);
     }
