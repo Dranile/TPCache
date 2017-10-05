@@ -13,7 +13,7 @@
  */
 class extractData {
     private static $url = "http://www.jeuxdemots.org/rezo-dump.php?gotermsubmit=Chercher&gotermrel=";
-    private static $directory = "query";
+    private static $directory = __DIR__ . DIRECTORY_SEPARATOR . "query";
     
     function __construct() {
         
@@ -32,7 +32,7 @@ class extractData {
         foreach ($files as $file){
             if(strcmp($file,$query) == 0){
                 echo "<h3>Mot déja en cache</h3>";
-                $filename = extractData::$directory . "/" . $query;
+                $filename = extractData::$directory . DIRECTORY_SEPARATOR . $query;
                 if(filesize($filename) == 0){
                     return "";
                 }
@@ -69,7 +69,7 @@ class extractData {
     
     private function writeContentInFile($name, $content){
                
-        $myFile = fopen(extractData::$directory . "/" . $name, "w");
+        $myFile = fopen(extractData::$directory . DIRECTORY_SEPARATOR . $name, "w");
         fwrite($myFile, $content);
         fclose($myFile);
     }
